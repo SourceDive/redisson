@@ -1,0 +1,195 @@
+version: '3.8'
+
+services:
+  # Redis 单机模式 - 主要测试服务
+  redis:
+    image: ${REDIS_SINGLE_IMAGE:-redis:7.2-alpine}
+    container_name: ${REDIS_SINGLE_NAME:-redisson-test-redis}
+    ports:
+      - "${REDIS_SINGLE_PORT:-6379}:6379"
+    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-}"
+    volumes:
+      - ${REDIS_DATA_VOLUME:-redisson_redis_data}:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=${TIMEZONE:-Asia/Shanghai}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: ${HEALTH_CHECK_INTERVAL:-10s}
+      timeout: ${HEALTH_CHECK_TIMEOUT:-5s}
+      retries: ${HEALTH_CHECK_RETRIES:-5}
+    networks:
+      - ${NETWORK_NAME:-redisson-test-network}
+
+  # Redis 集群模式（可选）
+  redis-cluster:
+    image: ${REDIS_CLUSTER_IMAGE:-redis:7.2-alpine}
+    container_name: ${REDIS_CLUSTER_NAME:-redisson-test-redis-cluster}
+    ports:
+      - "7000:7000"
+      - "7001:7001"
+      - "7002:7002"
+      - "7003:7003"
+      - "7004:7004"
+      - "7005:7005"
+    command: >
+      sh -c "
+        echo 'port 7000
+        cluster-enabled yes
+        cluster-config-file nodes.conf
+        cluster-node-timeout 5000
+        appendonly yes' > /usr/local/etc/redis/redis-7000.conf &&
+        echo 'port 7001
+        cluster-enabled yes
+        cluster-config-file nodes.conf
+        cluster-node-timeout 5000
+        appendonly yes' > /usr/local/etc/redis/redis-7001.conf &&
+        echo 'port 7002
+        cluster-enabled yes
+        cluster-config-file nodes.conf
+        cluster-node-timeout 5000
+        appendonly yes' > /usr/local/etc/redis/redis-7002.conf &&
+        echo 'port 7003
+        cluster-enabled yes
+        cluster-config-file nodes.conf
+        cluster-node-timeout 5000
+        appendonly yes' > /usr/local/etc/redis/redis-7003.conf &&
+        echo 'port 7004
+        cluster-enabled yes
+        cluster-config-file nodes.conf
+        cluster-node-timeout 5000
+        appendonly yes' > /usr/local/etc/redis/redis-7004.conf &&
+        echo 'port 7005
+        cluster-enabled yes
+        cluster-config-file nodes.conf
+        cluster-node-timeout 5000
+        appendonly yes' > /usr/local/etc/redis/redis-7005.conf &&
+        redis-server /usr/local/etc/redis/redis-7000.conf &
+        redis-server /usr/local/etc/redis/redis-7001.conf &
+        redis-server /usr/local/etc/redis/redis-7002.conf &
+        redis-server /usr/local/etc/redis/redis-7003.conf &
+        redis-server /usr/local/etc/redis/redis-7004.conf &
+        redis-server /usr/local/etc/redis/redis-7005.conf &
+        sleep 5 &&
+        redis-cli --cluster create 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 --cluster-replicas 1 --cluster-yes &&
+        wait"
+    volumes:
+      - ${REDIS_CLUSTER_DATA_VOLUME:-redisson_redis_cluster_data}:/data
+    environment:
+      - TZ=${TIMEZONE:-Asia/Shanghai}
+    restart: unless-stopped
+    networks:
+      - ${NETWORK_NAME:-redisson-test-network}
+
+  # Redis Sentinel 主节点
+  redis-sentinel-master:
+    image: ${REDIS_SENTINEL_IMAGE:-redis:7.2-alpine}
+    container_name: ${REDIS_SENTINEL_MASTER_NAME:-redisson-test-redis-sentinel-master}
+    ports:
+      - "${REDIS_SENTINEL_MASTER_PORT:-6380}:6379"
+    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-}"
+    volumes:
+      - ${REDIS_SENTINEL_DATA_VOLUME:-redisson_redis_sentinel_data}:/data
+    environment:
+      - TZ=${TIMEZONE:-Asia/Shanghai}
+    restart: unless-stopped
+    networks:
+      - ${NETWORK_NAME:-redisson-test-network}
+
+  # Redis Sentinel 从节点1
+  redis-sentinel-slave1:
+    image: ${REDIS_SENTINEL_IMAGE:-redis:7.2-alpine}
+    container_name: ${REDIS_SENTINEL_SLAVE1_NAME:-redisson-test-redis-sentinel-slave1}
+    ports:
+      - "${REDIS_SENTINEL_SLAVE1_PORT:-6381}:6379"
+    command: redis-server --appendonly yes --slaveof redis-sentinel-master 6379
+    volumes:
+      - ${REDIS_SENTINEL_DATA_VOLUME:-redisson_redis_sentinel_data}:/data
+    environment:
+      - TZ=${TIMEZONE:-Asia/Shanghai}
+    depends_on:
+      - redis-sentinel-master
+    restart: unless-stopped
+    networks:
+      - ${NETWORK_NAME:-redisson-test-network}
+
+  # Redis Sentinel 从节点2
+  redis-sentinel-slave2:
+    image: ${REDIS_SENTINEL_IMAGE:-redis:7.2-alpine}
+    container_name: ${REDIS_SENTINEL_SLAVE2_NAME:-redisson-test-redis-sentinel-slave2}
+    ports:
+      - "${REDIS_SENTINEL_SLAVE2_PORT:-6382}:6379"
+    command: redis-server --appendonly yes --slaveof redis-sentinel-master 6379
+    volumes:
+      - ${REDIS_SENTINEL_DATA_VOLUME:-redisson_redis_sentinel_data}:/data
+    environment:
+      - TZ=${TIMEZONE:-Asia/Shanghai}
+    depends_on:
+      - redis-sentinel-master
+    restart: unless-stopped
+    networks:
+      - ${NETWORK_NAME:-redisson-test-network}
+
+  # Redis Sentinel 1
+  redis-sentinel1:
+    image: ${REDIS_SENTINEL_IMAGE:-redis:7.2-alpine}
+    container_name: ${REDIS_SENTINEL1_NAME:-redisson-test-redis-sentinel1}
+    ports:
+      - "${REDIS_SENTINEL1_PORT:-26379}:26379"
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    environment:
+      - TZ=${TIMEZONE:-Asia/Shanghai}
+    depends_on:
+      - redis-sentinel-master
+    restart: unless-stopped
+    networks:
+      - ${NETWORK_NAME:-redisson-test-network}
+
+  # Redis Sentinel 2
+  redis-sentinel2:
+    image: ${REDIS_SENTINEL_IMAGE:-redis:7.2-alpine}
+    container_name: ${REDIS_SENTINEL2_NAME:-redisson-test-redis-sentinel2}
+    ports:
+      - "${REDIS_SENTINEL2_PORT:-26380}:26379"
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    environment:
+      - TZ=${TIMEZONE:-Asia/Shanghai}
+    depends_on:
+      - redis-sentinel-master
+    restart: unless-stopped
+    networks:
+      - ${NETWORK_NAME:-redisson-test-network}
+
+  # Redis Sentinel 3
+  redis-sentinel3:
+    image: ${REDIS_SENTINEL_IMAGE:-redis:7.2-alpine}
+    container_name: ${REDIS_SENTINEL3_NAME:-redisson-test-redis-sentinel3}
+    ports:
+      - "${REDIS_SENTINEL3_PORT:-26381}:26379"
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    environment:
+      - TZ=${TIMEZONE:-Asia/Shanghai}
+    depends_on:
+      - redis-sentinel-master
+    restart: unless-stopped
+    networks:
+      - ${NETWORK_NAME:-redisson-test-network}
+
+volumes:
+  ${REDIS_DATA_VOLUME:-redisson_redis_data}:
+    driver: local
+  ${REDIS_CLUSTER_DATA_VOLUME:-redisson_redis_cluster_data}:
+    driver: local
+  ${REDIS_SENTINEL_DATA_VOLUME:-redisson_redis_sentinel_data}:
+    driver: local
+
+networks:
+  ${NETWORK_NAME:-redisson-test-network}:
+    driver: bridge
