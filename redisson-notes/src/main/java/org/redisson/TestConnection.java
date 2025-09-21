@@ -18,22 +18,22 @@ public class TestConnection {
     public void testConnection() {
         // 等待 Redis 服务启动
         RedisTestHelper.waitForRedisStartup(10, 2000);
-        
+
         RedissonClient client = null;
         try {
             // 使用 Docker 中的 Redis 服务
             client = RedisTestHelper.createSingleServerClient();
             LOGGER.info("客户端创建成功");
-            
+
             // 测试连接
             if (RedisTestHelper.testConnection(client)) {
                 LOGGER.info("Redis 连接测试成功");
-                
+
                 // 测试基本操作
                 client.getBucket("test:connection").set("Hello Docker Redis");
                 String value = (String) client.getBucket("test:connection").get();
                 LOGGER.info("获取value: {}", value);
-                
+
                 // 清理测试数据
                 client.getBucket("test:connection").delete();
                 LOGGER.info("测试数据已清理");

@@ -9,34 +9,34 @@ import org.slf4j.LoggerFactory;
 /**
  * Redis 测试辅助工具类
  * 提供统一的 Redis 连接配置和管理
- * 
+ *
  * @author zero
  * @date 2025-01-02
  */
 public class RedisTestHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisTestHelper.class);
-    
+
     // Docker Compose 中的 Redis 服务地址
     private static final String REDIS_HOST = "localhost";
     private static final String REDIS_PORT = "6379";
     private static final String REDIS_URL = "redis://" + REDIS_HOST + ":" + REDIS_PORT;
-    
+
     // 集群模式地址（可选）
     private static final String[] CLUSTER_NODES = {
-        "redis://localhost:7000",
-        "redis://localhost:7001", 
-        "redis://localhost:7002",
-        "redis://localhost:7003",
-        "redis://localhost:7004",
-        "redis://localhost:7005"
+            "redis://localhost:7000",
+            "redis://localhost:7001",
+            "redis://localhost:7002",
+            "redis://localhost:7003",
+            "redis://localhost:7004",
+            "redis://localhost:7005"
     };
-    
+
     // Sentinel 模式地址（可选）
     private static final String[] SENTINEL_ADDRESSES = {
-        "redis://localhost:26379",
-        "redis://localhost:26380",
-        "redis://localhost:26381"
+            "redis://localhost:26379",
+            "redis://localhost:26380",
+            "redis://localhost:26381"
     };
 
     /**
@@ -54,7 +54,7 @@ public class RedisTestHelper {
                 .setRetryAttempts(3)
                 .setRetryInterval(1500);
         config.setCodec(new org.redisson.codec.JsonJacksonCodec());
-        
+
         try {
             RedissonClient client = org.redisson.Redisson.create(config);
             LOGGER.info("单机模式 Redis 客户端创建成功: {}", REDIS_URL);
@@ -82,7 +82,7 @@ public class RedisTestHelper {
                 .setRetryAttempts(3)
                 .setRetryInterval(1500);
         config.setCodec(new org.redisson.codec.JsonJacksonCodec());
-        
+
         try {
             RedissonClient client = org.redisson.Redisson.create(config);
             LOGGER.info("集群模式 Redis 客户端创建成功");
@@ -111,7 +111,7 @@ public class RedisTestHelper {
                 .setRetryAttempts(3)
                 .setRetryInterval(1500);
         config.setCodec(new org.redisson.codec.JsonJacksonCodec());
-        
+
         try {
             RedissonClient client = org.redisson.Redisson.create(config);
             LOGGER.info("Sentinel 模式 Redis 客户端创建成功");
@@ -157,7 +157,7 @@ public class RedisTestHelper {
      */
     public static void waitForRedisStartup(int maxRetries, long retryIntervalMs) {
         LOGGER.info("等待 Redis 服务启动...");
-        
+
         for (int i = 0; i < maxRetries; i++) {
             try {
                 RedissonClient testClient = createSingleServerClient();
@@ -170,7 +170,7 @@ public class RedisTestHelper {
             } catch (Exception e) {
                 LOGGER.debug("Redis 服务尚未就绪，重试 {}/{}", i + 1, maxRetries);
             }
-            
+
             try {
                 Thread.sleep(retryIntervalMs);
             } catch (InterruptedException e) {
@@ -179,7 +179,7 @@ public class RedisTestHelper {
                 return;
             }
         }
-        
+
         LOGGER.warn("Redis 服务在 {} 次重试后仍未就绪", maxRetries);
     }
 }
