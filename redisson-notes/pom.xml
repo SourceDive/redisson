@@ -31,6 +31,20 @@
             <artifactId>redisson</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <!-- Jackson JSR310 模块，redisson 需要 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.5</version>
+        </dependency>
+        
+        <!-- Kryo 序列化，redisson 需要 -->
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+            <version>3.0.3</version>
+        </dependency>
         <!-- SLF4J API -->
         <dependency>
             <groupId>org.slf4j</groupId>
