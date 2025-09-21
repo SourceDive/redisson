@@ -7,6 +7,9 @@ set -e
 
 echo "=== Redisson 测试运行脚本 ==="
 
+# 设置 Java 8 环境
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home
+
 # 检查 Maven 是否可用
 MAVEN_CMD=""
 if command -v mvn > /dev/null 2>&1; then

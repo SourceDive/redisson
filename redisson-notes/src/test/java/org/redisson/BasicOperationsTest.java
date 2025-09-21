@@ -7,6 +7,7 @@ import org.redisson.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -222,11 +223,11 @@ public class BasicOperationsTest {
         LOGGER.info("player1 的分数: {}", score);
 
         // 获取前3名
-        Set<String> top3 = zset.valueRangeReversed(0, 2);
+        Collection<String> top3 = zset.valueRangeReversed(0, 2);
         LOGGER.info("前3名: {}", top3);
 
         // 获取分数范围
-        Set<String> players80to90 = zset.valueRange(80.0, true, 90.0, true);
+        Collection<String> players80to90 = zset.valueRange(80.0, true, 90.0, true);
         LOGGER.info("分数在80-90之间的玩家: {}", players80to90);
 
         // 获取集合大小
