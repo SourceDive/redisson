@@ -9,7 +9,7 @@ services:
       - "${REDIS_SINGLE_PORT:-6379}:6379"
     command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-}"
     volumes:
-      - ${REDIS_DATA_VOLUME:-redisson_redis_data}:/data
+      - redisson_redis_data:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - TZ=${TIMEZONE:-Asia/Shanghai}
@@ -20,7 +20,7 @@ services:
       timeout: ${HEALTH_CHECK_TIMEOUT:-5s}
       retries: ${HEALTH_CHECK_RETRIES:-5}
     networks:
-      - ${NETWORK_NAME:-redisson-test-network}
+      - redisson-test-network
 
   # Redis 集群模式（可选）
   redis-cluster:
@@ -75,12 +75,12 @@ services:
         redis-cli --cluster create 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 --cluster-replicas 1 --cluster-yes &&
         wait"
     volumes:
-      - ${REDIS_CLUSTER_DATA_VOLUME:-redisson_redis_cluster_data}:/data
+      - redisson_redis_cluster_data:/data
     environment:
       - TZ=${TIMEZONE:-Asia/Shanghai}
     restart: unless-stopped
     networks:
-      - ${NETWORK_NAME:-redisson-test-network}
+      - redisson-test-network
 
   # Redis Sentinel 主节点
   redis-sentinel-master:
@@ -90,12 +90,12 @@ services:
       - "${REDIS_SENTINEL_MASTER_PORT:-6380}:6379"
     command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD:-}"
     volumes:
-      - ${REDIS_SENTINEL_DATA_VOLUME:-redisson_redis_sentinel_data}:/data
+      - redisson_redis_sentinel_data:/data
     environment:
       - TZ=${TIMEZONE:-Asia/Shanghai}
     restart: unless-stopped
     networks:
-      - ${NETWORK_NAME:-redisson-test-network}
+      - redisson-test-network
 
   # Redis Sentinel 从节点1
   redis-sentinel-slave1:
@@ -105,14 +105,14 @@ services:
       - "${REDIS_SENTINEL_SLAVE1_PORT:-6381}:6379"
     command: redis-server --appendonly yes --slaveof redis-sentinel-master 6379
     volumes:
-      - ${REDIS_SENTINEL_DATA_VOLUME:-redisson_redis_sentinel_data}:/data
+      - redisson_redis_sentinel_data:/data
     environment:
       - TZ=${TIMEZONE:-Asia/Shanghai}
     depends_on:
       - redis-sentinel-master
     restart: unless-stopped
     networks:
-      - ${NETWORK_NAME:-redisson-test-network}
+      - redisson-test-network
 
   # Redis Sentinel 从节点2
   redis-sentinel-slave2:
@@ -122,14 +122,14 @@ services:
       - "${REDIS_SENTINEL_SLAVE2_PORT:-6382}:6379"
     command: redis-server --appendonly yes --slaveof redis-sentinel-master 6379
     volumes:
-      - ${REDIS_SENTINEL_DATA_VOLUME:-redisson_redis_sentinel_data}:/data
+      - redisson_redis_sentinel_data:/data
     environment:
       - TZ=${TIMEZONE:-Asia/Shanghai}
     depends_on:
       - redis-sentinel-master
     restart: unless-stopped
     networks:
-      - ${NETWORK_NAME:-redisson-test-network}
+      - redisson-test-network
 
   # Redis Sentinel 1
   redis-sentinel1:
@@ -146,7 +146,7 @@ services:
       - redis-sentinel-master
     restart: unless-stopped
     networks:
-      - ${NETWORK_NAME:-redisson-test-network}
+      - redisson-test-network
 
   # Redis Sentinel 2
   redis-sentinel2:
@@ -163,7 +163,7 @@ services:
       - redis-sentinel-master
     restart: unless-stopped
     networks:
-      - ${NETWORK_NAME:-redisson-test-network}
+      - redisson-test-network
 
   # Redis Sentinel 3
   redis-sentinel3:
@@ -180,16 +180,16 @@ services:
       - redis-sentinel-master
     restart: unless-stopped
     networks:
-      - ${NETWORK_NAME:-redisson-test-network}
+      - redisson-test-network
 
 volumes:
-  ${REDIS_DATA_VOLUME:-redisson_redis_data}:
+  redisson_redis_data:
     driver: local
-  ${REDIS_CLUSTER_DATA_VOLUME:-redisson_redis_cluster_data}:
+  redisson_redis_cluster_data:
     driver: local
-  ${REDIS_SENTINEL_DATA_VOLUME:-redisson_redis_sentinel_data}:
+  redisson_redis_sentinel_data:
     driver: local
 
 networks:
-  ${NETWORK_NAME:-redisson-test-network}:
+  redisson-test-network:
     driver: bridge

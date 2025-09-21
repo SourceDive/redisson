@@ -20,7 +20,7 @@ if ! command -v docker-compose > /dev/null 2>&1; then
 fi
 
 # 切换到 docker 目录
-cd docker
+cd "$(dirname "$0")/docker"
 
 # 停止并删除现有容器
 echo "停止现有容器..."
@@ -34,9 +34,13 @@ docker-compose up -d redis
 echo "等待 Redis 服务启动..."
 sleep 5
 
+# 等待一下让服务完全启动
+echo "等待服务完全启动..."
+sleep 3
+
 # 检查 Redis 服务状态
 echo "检查 Redis 服务状态..."
-if docker-compose ps redis | grep -q "Up"; then
+if docker ps --format "{{.Names}} {{.Status}}" | grep -q "redisson-test-redis Up"; then
     echo "✅ Redis 服务启动成功"
 else
     echo "❌ Redis 服务启动失败"
@@ -46,7 +50,7 @@ fi
 
 # 测试 Redis 连接
 echo "测试 Redis 连接..."
-if docker-compose exec redis redis-cli ping | grep -q "PONG"; then
+if docker exec redisson-test-redis redis-cli ping | grep -q "PONG"; then
     echo "✅ Redis 连接测试成功"
 else
     echo "❌ Redis 连接测试失败"
