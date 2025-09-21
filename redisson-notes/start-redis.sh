@@ -19,6 +19,9 @@ if ! command -v docker-compose > /dev/null 2>&1; then
     exit 1
 fi
 
+# 切换到 docker 目录
+cd docker
+
 # 停止并删除现有容器
 echo "停止现有容器..."
 docker-compose down -v
@@ -49,6 +52,9 @@ else
     echo "❌ Redis 连接测试失败"
     exit 1
 fi
+
+# 返回原目录
+cd ..
 
 echo "=== Redis 服务已就绪，可以运行测试 ==="
 echo "运行测试命令: mvn test"

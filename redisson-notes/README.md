@@ -15,11 +15,15 @@ redisson-notes/
 │       ├── AppTest.java               # 基础测试
 │       ├── BasicOperationsTest.java   # 基础操作测试
 │       └── DistributedLockTest.java   # 分布式锁测试
-├── docker-compose.yml                 # Docker 服务配置
-├── redis.conf                         # Redis 配置文件
-├── sentinel.conf                      # Redis Sentinel 配置
+├── docker/
+│   ├── docker-compose.yml             # Docker 服务配置
+│   ├── environment.conf               # 环境变量配置
+│   ├── redis.conf                     # Redis 配置文件
+│   └── sentinel.conf                  # Redis Sentinel 配置
+├── .env                              # 环境变量文件
 ├── start-redis.sh                     # Redis 启动脚本
 ├── run-tests.sh                       # 测试运行脚本
+├── README.md                          # 项目说明文档
 └── pom.xml                           # Maven 配置
 ```
 
@@ -32,6 +36,7 @@ redisson-notes/
 ./start-redis.sh
 
 # 或者手动启动
+cd docker
 docker-compose up -d redis
 ```
 
@@ -49,6 +54,7 @@ mvn clean test
 
 ```bash
 # 停止 Redis 服务
+cd docker
 docker-compose down
 ```
 
@@ -89,14 +95,14 @@ docker-compose down
 
 - **端口**: 7000-7005
 - **节点数**: 6个节点（3主3从）
-- **启动**: `docker-compose up -d redis-cluster`
+- **启动**: `cd docker && docker-compose up -d redis-cluster`
 
 ### Sentinel 模式 (可选)
 
 - **主节点**: 6380
 - **从节点**: 6381, 6382
 - **Sentinel**: 26379, 26380, 26381
-- **启动**: `docker-compose up -d redis-sentinel-master redis-sentinel-slave1 redis-sentinel-slave2 redis-sentinel1 redis-sentinel2 redis-sentinel3`
+- **启动**: `cd docker && docker-compose up -d redis-sentinel-master redis-sentinel-slave1 redis-sentinel-slave2 redis-sentinel1 redis-sentinel2 redis-sentinel3`
 
 ## 配置说明
 
@@ -142,6 +148,7 @@ mvn test -Dtest=TestConnection
 
 ```bash
 # 检查 Redis 服务状态
+cd docker
 docker-compose ps redis
 
 # 查看 Redis 日志
