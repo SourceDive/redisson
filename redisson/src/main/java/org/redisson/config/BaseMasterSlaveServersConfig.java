@@ -21,6 +21,7 @@ import org.redisson.connection.balancer.LoadBalancer;
 import org.redisson.connection.balancer.RoundRobinLoadBalancer;
 
 /**
+ * <p>主从结点。</p>
  * 
  * @author Nikita Koksharov
  *

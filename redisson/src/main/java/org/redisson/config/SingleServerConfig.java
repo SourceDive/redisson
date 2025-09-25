@@ -16,6 +16,7 @@
 package org.redisson.config;
 
 /**
+ * <p>单机模式。</p>
  * 
  * @author Nikita Koksharov
  *

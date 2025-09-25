@@ -98,6 +98,7 @@ public final class Redisson implements RedissonClient {
     }
 
     /**
+     * 使用默认配置创建。
      * Create sync/async Redisson instance with default config
      *
      * @return Redisson instance

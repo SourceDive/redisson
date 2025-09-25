@@ -36,6 +36,7 @@ public interface RBucket<V> extends RExpirable, RBucketAsync<V> {
     long size();
     
     /**
+     * <p>等价于 get key</p>
      * Retrieves element stored in the holder.
      * 
      * @return element
@@ -72,6 +73,7 @@ public interface RBucket<V> extends RExpirable, RBucketAsync<V> {
     boolean trySet(V value, long timeToLive, TimeUnit timeUnit);
 
     /**
+     * <p>等价于 set key value NX</p>
      * Sets value only if object holder doesn't exist.
      *
      * @param value - value to set
@@ -91,6 +93,7 @@ public interface RBucket<V> extends RExpirable, RBucketAsync<V> {
     boolean setIfAbsent(V value, Duration duration);
 
     /**
+     * <p>等价于 set key value XX</p>
      * Sets value only if object holder already exists.
      *
      * @param value - value to set
@@ -192,6 +195,7 @@ public interface RBucket<V> extends RExpirable, RBucketAsync<V> {
     V getAndClearExpire();
 
     /**
+     * <p>等价于 set key value</p>
      * Stores element into the holder. 
      * 
      * @param value - value to set

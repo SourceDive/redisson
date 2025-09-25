@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * <p>R 客户端，支持同步和异步。</p>
  * Main Redisson interface for access
  * to all redisson objects with sync/async interface.
  * 

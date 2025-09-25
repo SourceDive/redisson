@@ -5,9 +5,13 @@
 
 [Quick start](https://redisson.org/docs/getting-started/) | [Documentation](https://redisson.org/docs/) | [Changelog](https://github.com/redisson/redisson/blob/master/CHANGELOG.md) | [Code examples](https://github.com/redisson/redisson-examples) | [Report an issue](https://github.com/redisson/redisson/issues/new)
 
-Redisson is the Java Client and Real-Time Data Platform for Valkey and Redis. Providing the most convenient and easiest way to work with Valkey or Redis. Redisson objects provide an abstraction layer between Valkey or Redis and your Java code, which allowing maintain focus on data modeling and application logic. 
+Redisson is the Java Client and Real-Time Data Platform for *Valkey* and Redis. Providing the most convenient and easiest way to work with Valkey or Redis. **Redisson objects provide an abstraction layer** between Valkey or Redis and your Java code, which allowing maintain focus on data modeling and application logic. 
 
 Redisson greatly extends the capabilities of Valkey and Redis by providing additional services and data structures not natively available in either platform. This enhancement includes distributed Java collections, objects, and service implementations, which significantly reduce the learning curve for Java developers working with key-value databases.
+
+
+
+Redisson 将 Valkey 和 Redis 视为等同的后端存储。
 
 ## Features
 
@@ -16,7 +20,7 @@ Redisson greatly extends the capabilities of Valkey and Redis by providing addit
 * Android compatible
 * [Redis](https://redis.io) compatible - from 3.0 up to the latest version
 * [Valkey](https://valkey.io) compatible - from 7.2.5 up to the latest version
-* Supported deployment types
+* Supported deployment types 部署类型
     * [Proxy](https://redisson.org/docs/configuration/#proxy-mode)
     * [Multi-Cluster](https://redisson.org/docs/configuration/#multi-cluster-mode)
     * [Multi-Sentinel](https://redisson.org/docs/configuration/#multi-sentinel-mode)

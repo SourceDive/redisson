@@ -18,6 +18,7 @@ package org.redisson.api;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * <p>异步对象。</p>
  * Base asynchronous interface for all Redisson objects
  *
  * @author Nikita Koksharov

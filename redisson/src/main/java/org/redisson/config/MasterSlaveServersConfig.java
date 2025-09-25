@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * <p>主从模式。</p>
  * 
  * @author Nikita Koksharov
  *

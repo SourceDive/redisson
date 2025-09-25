@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit;
 import org.redisson.client.codec.Codec;
 
 /**
+ * <p>R 代表 redisson。</p>
+ * <p>All Redisson objects implement the RObject interface</p>
+ *
  * Base interface for all Redisson objects
  *
  * @author Nikita Koksharov
@@ -210,6 +213,7 @@ public interface RObject extends RObjectAsync {
     boolean renamenx(String newName);
 
     /**
+     * <p>检查 key 是否存在。</p>
      * Check object existence
      *
      * @return <code>true</code> if object exists and <code>false</code> otherwise
