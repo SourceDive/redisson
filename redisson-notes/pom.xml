@@ -45,32 +45,18 @@
             <artifactId>kryo</artifactId>
             <version>3.0.3</version>
         </dependency>
-        <!-- SLF4J API -->
+        <!-- SLF4J API - 使用与 Logback 1.2.12 兼容的版本 -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.13</version>
+            <version>1.7.36</version>
         </dependency>
 
-        <!-- SLF4J 绑定 Log4j2 -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j2-impl</artifactId>
-            <version>2.23.1</version>
-        </dependency>
-
-        <!-- Log4j2 核心 -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.23.1</version>
-        </dependency>
-<!--        &lt;!&ndash; 通常还需要一个日志实现，如 SLF4J + Logback &ndash;&gt;-->
+        <!-- Logback 实现，提供 SLF4J 绑定 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.12</version> <!-- 兼容 Java 8 的版本 -->
-<!--            <scope>test</scope> &lt;!&ndash; 范围根据需要调整 &ndash;&gt;-->
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>junit</groupId>-->
