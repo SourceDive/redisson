@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
 /**
+ * <p>异步计算的结果。</p>
  * Represents the result of an asynchronous computation
  * 
  * @author Nikita Koksharov

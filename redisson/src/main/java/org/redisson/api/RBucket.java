@@ -20,6 +20,8 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * <p>桶。</p>
+ * <p>核心api: set/get</p>
  * Object holder. Max size of object is 512MB
  *
  * @author Nikita Koksharov

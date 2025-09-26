@@ -303,6 +303,8 @@ public interface RedissonClient {
     <K, V> RMapCache<K, V> getMapCache(String name, MapCacheOptions<K, V> options);
 
     /**
+     * <p>获取一个桶。</p>
+     * <p>这个时候还没有和 redis 进行交互。</p>
      * Returns object holder instance by name.
      *
      * @param <V> type of value

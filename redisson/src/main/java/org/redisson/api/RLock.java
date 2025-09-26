@@ -49,13 +49,14 @@ public interface RLock extends Lock, RLockAsync, RObservable {
     void lockInterruptibly(long leaseTime, TimeUnit unit) throws InterruptedException;
 
     /**
+     * <p>锁会在【锁定时间】结束后自动释放。</p>
      * Tries to acquire the lock with defined <code>leaseTime</code>.
      * Waits up to defined <code>waitTime</code> if necessary until the lock became available.
      *
      * Lock will be released automatically after defined <code>leaseTime</code> interval.
      *
-     * @param waitTime the maximum time to acquire the lock
-     * @param leaseTime lease time
+     * @param waitTime the maximum time to acquire the lock 锁等待时间
+     * @param leaseTime lease time 锁定时间
      * @param unit time unit
      * @return <code>true</code> if lock is successfully acquired,
      *          otherwise <code>false</code> if lock is already set.

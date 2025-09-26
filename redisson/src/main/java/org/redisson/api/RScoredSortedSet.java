@@ -529,6 +529,8 @@ public interface RScoredSortedSet<V> extends RScoredSortedSetAsync<V>, Iterable<
     int removeRangeByRank(int startIndex, int endIndex);
 
     /**
+     * <p>获取给定参数的排名。</p>
+     * <p>从低到高。</p>
      * Returns rank of value, with the ranks ordered from low to high.
      * 
      * @param o - object
