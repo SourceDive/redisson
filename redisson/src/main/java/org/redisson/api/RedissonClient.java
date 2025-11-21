@@ -886,6 +886,7 @@ public interface RedissonClient {
     RPermitExpirableSemaphore getPermitExpirableSemaphore(CommonOptions options);
 
     /**
+     * <p>获取锁实例。</p>
      * Returns Lock instance by name.
      * <p>
      * Implements a <b>non-fair</b> locking so doesn't guarantees an acquire order by threads.

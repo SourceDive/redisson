@@ -112,6 +112,9 @@ public abstract class RedissonObject implements RObject {
         return commandExecutor.getServiceManager().getConfig().getNameMapper().unmap(name);
     }
 
+    /**
+     * 这里是key的名称。
+     */
     public final String getRawName() {
         return name;
     }

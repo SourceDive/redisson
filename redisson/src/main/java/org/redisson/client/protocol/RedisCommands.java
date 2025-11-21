@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * 
+ * <p>redis原生命令包装。</p>
  * @author Nikita Koksharov
  *
  */

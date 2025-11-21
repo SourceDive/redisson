@@ -65,6 +65,9 @@ public abstract class RedissonBaseLock extends RedissonExpirable implements RLoc
         return entryName;
     }
 
+    /**
+     * 锁的名称形式：uuid:threadId
+     */
     protected String getLockName(long threadId) {
         return id + ":" + threadId;
     }

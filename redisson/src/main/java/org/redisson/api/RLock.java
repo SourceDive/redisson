@@ -79,6 +79,7 @@ public interface RLock extends Lock, RLockAsync, RObservable {
     void lock(long leaseTime, TimeUnit unit);
 
     /**
+     * <p>强制解锁。</p>
      * Unlocks the lock independently of its state
      *
      * @return <code>true</code> if lock existed and now unlocked
@@ -103,6 +104,7 @@ public interface RLock extends Lock, RLockAsync, RObservable {
     boolean isHeldByThread(long threadId);
 
     /**
+     * <p>当前线程是否持有锁。</p>
      * Checks if this lock is held by the current thread
      *
      * @return <code>true</code> if held by current thread
@@ -111,6 +113,7 @@ public interface RLock extends Lock, RLockAsync, RObservable {
     boolean isHeldByCurrentThread();
 
     /**
+     * <p>获取重入次数，也就是持有次数。</p>
      * Number of holds on this lock by the current thread
      *
      * @return holds or <code>0</code> if this lock is not held by current thread
@@ -118,6 +121,7 @@ public interface RLock extends Lock, RLockAsync, RObservable {
     int getHoldCount();
 
     /**
+     * <p>锁的剩余存活时间。</p>
      * Remaining time to live of the lock
      *
      * @return time in milliseconds

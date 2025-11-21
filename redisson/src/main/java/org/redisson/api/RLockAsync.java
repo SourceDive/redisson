@@ -34,6 +34,7 @@ public interface RLockAsync extends RObservableAsync {
     RFuture<Boolean> forceUnlockAsync();
     
     /**
+     * <p>解锁。</p>
      * Unlocks the lock 
      * 
      * @return void
@@ -41,7 +42,9 @@ public interface RLockAsync extends RObservableAsync {
     RFuture<Void> unlockAsync();
 
     /**
-     * Unlocks the lock. Throws {@link IllegalMonitorStateException} 
+     * <p>解锁。</p>
+     * <p>如果当前线程不持有，则报错。</p>
+     * Unlocks the lock. Throws {@link IllegalMonitorStateException}
      * if lock isn't locked by thread with specified <code>threadId</code>.
      * 
      * @param threadId id of thread
@@ -50,6 +53,7 @@ public interface RLockAsync extends RObservableAsync {
     RFuture<Void> unlockAsync(long threadId);
 
     /**
+     * <p>尝试获取锁。</p>
      * Tries to acquire the lock.
      * 
      * @return <code>true</code> if lock acquired otherwise <code>false</code>
@@ -57,6 +61,8 @@ public interface RLockAsync extends RObservableAsync {
     RFuture<Boolean> tryLockAsync();
 
     /**
+     * <p>获取锁。</p>
+     * <p>阻塞操作。</p>
      * Acquires the lock.
      * Waits if necessary until lock became available.
      * 
@@ -65,6 +71,8 @@ public interface RLockAsync extends RObservableAsync {
     RFuture<Void> lockAsync();
 
     /**
+     * <p>获取锁。</p>
+     * <p>阻塞操作。</p>
      * Acquires the lock by thread with defined <code>threadId</code>.
      * Waits if necessary until lock became available.
      * 
@@ -74,6 +82,8 @@ public interface RLockAsync extends RObservableAsync {
     RFuture<Void> lockAsync(long threadId);
     
     /**
+     * <p>获取锁(有租期)。</p>
+     * <p>阻塞操作。</p>
      * Acquires the lock with defined <code>leaseTime</code>.
      * Waits if necessary until lock became available.
      *
@@ -88,6 +98,8 @@ public interface RLockAsync extends RObservableAsync {
     RFuture<Void> lockAsync(long leaseTime, TimeUnit unit);
 
     /**
+     * <p>获取锁(有租期/指定thread)。</p>
+     * <p>阻塞操作。</p>
      * Acquires the lock with defined <code>leaseTime</code> and <code>threadId</code>.
      * Waits if necessary until lock became available.
      *
@@ -103,6 +115,7 @@ public interface RLockAsync extends RObservableAsync {
     RFuture<Void> lockAsync(long leaseTime, TimeUnit unit, long threadId);
     
     /**
+     * <p>尝试获取锁(指定thread)</p>
      * Tries to acquire the lock by thread with specified <code>threadId</code>.
      * 
      * @param threadId id of thread

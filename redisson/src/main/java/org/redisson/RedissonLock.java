@@ -217,13 +217,13 @@ public class RedissonLock extends RedissonBaseLock {
 
     <T> RFuture<T> tryLockInnerAsync(long waitTime, long leaseTime, TimeUnit unit, long threadId, RedisStrictCommand<T> command) {
         return evalWriteSyncedNoRetryAsync(getRawName(), LongCodec.INSTANCE, command,
-                "if ((redis.call('exists', KEYS[1]) == 0) " +
-                            "or (redis.call('hexists', KEYS[1], ARGV[2]) == 1)) then " +
-                        "redis.call('hincrby', KEYS[1], ARGV[2], 1); " +
-                        "redis.call('pexpire', KEYS[1], ARGV[1]); " +
+                "if ((redis.call('exists', KEYS[1]) == 0) " + // 1、线程未持有锁
+                            "or (redis.call('hexists', KEYS[1], ARGV[2]) == 1)) then " + // 2、线程已获取到锁
+                        "redis.call('hincrby', KEYS[1], ARGV[2], 1); " + // 重入次数+1
+                        "redis.call('pexpire', KEYS[1], ARGV[1]); " + // 重新设置租期
                         "return nil; " +
                     "end; " +
-                    "return redis.call('pttl', KEYS[1]);",
+                    "return redis.call('pttl', KEYS[1]);", // 3、锁被其他线程持有，返回锁的剩余生存时间
                 Collections.singletonList(getRawName()), unit.toMillis(leaseTime), getLockName(threadId));
     }
 
