@@ -157,7 +157,7 @@ public class RedissonReadLock extends RedissonLock implements RLock {
     }
 
     @Override
-    public Condition newCondition() {
+    public Condition newCondition() { // 不支持 condition
         throw new UnsupportedOperationException();
     }
 

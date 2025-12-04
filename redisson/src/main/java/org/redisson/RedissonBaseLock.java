@@ -103,7 +103,7 @@ public abstract class RedissonBaseLock extends RedissonExpirable implements RLoc
     }
 
     @Override
-    public Condition newCondition() {
+    public Condition newCondition() { // 不支持 condition 相关操作。
         // TODO implement
         throw new UnsupportedOperationException();
     }

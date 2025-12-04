@@ -415,7 +415,7 @@ public class RedissonMultiLock implements RLock {
     }
 
     @Override
-    public Condition newCondition() {
+    public Condition newCondition() { // 不支持 condition 相关操作。
         throw new UnsupportedOperationException();
     }
 
