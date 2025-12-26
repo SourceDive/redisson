@@ -217,8 +217,8 @@ public class RedissonLock extends RedissonBaseLock {
 
     <T> RFuture<T> tryLockInnerAsync(long waitTime, long leaseTime, TimeUnit unit, long threadId, RedisStrictCommand<T> command) {
         return evalWriteSyncedNoRetryAsync(getRawName(), LongCodec.INSTANCE, command,
-                "if ((redis.call('exists', KEYS[1]) == 0) " + // 1、线程未持有锁
-                            "or (redis.call('hexists', KEYS[1], ARGV[2]) == 1)) then " + // 2、线程已获取到锁
+                "if ((redis.call('exists', KEYS[1]) == 0) " + // 1a、线程未持有锁
+                            "or (redis.call('hexists', KEYS[1], ARGV[2]) == 1)) then " + // 1b、线程已获取到锁
                         "redis.call('hincrby', KEYS[1], ARGV[2], 1); " + // 重入次数+1
                         "redis.call('pexpire', KEYS[1], ARGV[1]); " + // 重新设置过期时间
                         "return nil; " +
