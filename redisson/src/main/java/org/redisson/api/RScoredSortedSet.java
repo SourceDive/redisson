@@ -901,6 +901,7 @@ public interface RScoredSortedSet<V> extends RScoredSortedSetAsync<V>, Iterable<
     void clear();
 
     /**
+     * <p>为给定元素新增分数。</p>
      * Increases score of specified element by value.
      * 
      * @param element - element whose score needs to be increased
@@ -1038,6 +1039,7 @@ public interface RScoredSortedSet<V> extends RScoredSortedSetAsync<V>, Iterable<
     Collection<V> valueRange(int startIndex, int endIndex);
 
     /**
+     * <p>逆序获取排行榜。</p>
      * Returns values by rank range in reverse order. Indexes are zero based. 
      * <code>-1</code> means the highest score, <code>-2</code> means the second highest score.
      * 
